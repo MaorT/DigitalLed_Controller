@@ -1,0 +1,5 @@
+E:\Maor\Desktop\CoreAudio2_Src\CoreAudioApi\bin\Debug\CoreAudioApi.dll
+E:\Maor\Desktop\CoreAudio2_Src\CoreAudioApi\bin\Debug\CoreAudioApi.pdb
+E:\Maor\Desktop\CoreAudio2_Src\CoreAudioApi\obj\Debug\CoreAudioApi.csprojResolveAssemblyReference.cache
+E:\Maor\Desktop\CoreAudio2_Src\CoreAudioApi\obj\Debug\CoreAudioApi.dll
+E:\Maor\Desktop\CoreAudio2_Src\CoreAudioApi\obj\Debug\CoreAudioApi.pdb
