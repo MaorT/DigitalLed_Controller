@@ -19,31 +19,41 @@ namespace SimpleSerial
 {
     public partial class Form1 : Form
     {
-        // Add this variable 
+        // serial communication vars
         string RxString;
-
+        private char endChar = '~';
         private string CurrentCom = "";
         private string BaudRate = "9600";
+        private int sleepBetweenCommands = 20; // Wait before next command to prevent arduino buffer overflow
 
+        // Sound objects and vars
         private MMDeviceEnumerator de;
         private MMDevice mediaDevice ;
+        int diff = 10, bigPeakVal = 15;
+        private int maxPeak = 15; // Store the maximum peak for last X seconds (can be different for each song)
+        private int peaksPerQuantom = 0;
 
-        //Effects\Colors variables
+
+        /**  Effects\Colors variables  **/
+        //current color vars
         private int currentRed = 255;
         private int currentGreen = 255;
         private int currentBlue = 255;
-        private char endChar = '~';
+
+        // random functions vars
         private int lastRandom = 0;
         private int lastEffect = 0;
 
-        int diff = 10, bigPeakVal = 15;
-        private int maxPeak = 15; // Store the maximum peak for last X seconds (can be different for each song)
 
 
-        private int effectReplayCount = 0;
-        private int EFFECT_REPLAY_COUNT = 10;
+        // effect configuration vars
+        private int EFFECT_REPLAY_COUNT = 5; // how many times to repeat each normal effect (not for sequence effects).
         private int FLASH_MILLIS = 50;
-        private int currentEffect = 0;
+        private int currentEffect = 0; // represent the current effect number.
+        private int currentEffectStep = 0;
+
+
+        
 
         public Form1()
         {
@@ -53,6 +63,17 @@ namespace SimpleSerial
             mediaDevice = de.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            RefreshComPortsCombo();
+            BaudComboSetup();
+            DefaultSetup_Load();
+            ResetBtn.Enabled = false;
+
+            // ComReceiveTxt.ScrollToCaret();
+        }
+
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
@@ -123,24 +144,6 @@ namespace SimpleSerial
             if (serialPort1.IsOpen) serialPort1.Close();
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // If the port is closed, don't try to send a character.
-            if (!serialPort1.IsOpen) return;
-
-            // If the port is Open, declare a char[] array with one element.
-            char[] buff = new char[1];
-
-            // Load element 0 with the key character.
-            buff[0] = e.KeyChar;
-
-            // Send the one character buffer.
-            serialPort1.Write(buff, 0, 1);
-
-            // Set the KeyPress event as handled so the character won't
-            // display locally. If you want it to display, omit the next line.
-            e.Handled = true;
-        }
 
         private void DisplayText(object sender, EventArgs e)
         {
@@ -171,15 +174,7 @@ namespace SimpleSerial
             return allPorts;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            RefreshComPortsCombo();
-            BaudComboSetup();
-            DefaultSetup_Load();
-            ResetBtn.Enabled = false;
 
-            // ComReceiveTxt.ScrollToCaret();
-        }
 
         private String fixComName(String str)
         {
@@ -303,10 +298,6 @@ namespace SimpleSerial
 
         }
 
-        private void ComPortsCombo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true;
-        }
 
         private void BaudcomboBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -357,58 +348,6 @@ namespace SimpleSerial
             RefreshComPortsCombo();
         }
 
-        private void tstBtn_Click(object sender, EventArgs e)
-        {
-         //   serialPort1.Write("c~");
-
-            Random random = new Random();
-            int red = random.Next(0, 255);
-            int green = random.Next(0, 255);
-            int blue = random.Next(0, 255);
-            String data = "";
-
-            red = 200;
-            green = 200;
-            blue = 200;
-
-            for (int i = 0; i < 150; i++)
-            {
-                data += (char)i;
-                data += (char)red;
-                data += (char)green;
-                data += (char) blue;
-                serialPort1.Write(data);
-
-          //      cmd = IntToStr(i) + "," + IntToStr(red) + ',' + IntToStr(green) + "," + IntToStr(blue) + "~";
-               // serialPort1.Write(cmd);
-                data = "";
-                Thread.Sleep(10);
-
-              //  serialPort1.Write("s~");
-
-               // Thread.Sleep(10);
-            }
-
-          //  serialPort1.Write("s~");
-        }
-
-
-
-
-
-        void AudioEndpointVolume_OnVolumeNotification(AudioVolumeNotificationData data)
-        {
-            if (this.InvokeRequired)
-            {
-                object[] Params = new object[1];
-                Params[0] = data;
-                this.Invoke(new AudioEndpointVolumeNotificationDelegate(AudioEndpointVolume_OnVolumeNotification), Params);
-            }
-            else
-            {
-          //      tbMaster.Value = (int)(data.MasterVolume * 100);
-            }
-        }
 
         private void musicTimer_Tick(object sender, EventArgs e)
         {
@@ -435,15 +374,10 @@ namespace SimpleSerial
         }
 
 
-
-        private int peaksPerQuantom = 0;
-
-
         private void MusicControll_Function(float mastervolume, float volumeLeft, float volumeRight)
         {
             if (mastervolume < sensivityScrollBar.Value || !serialPort1.IsOpen)
                 return;
-
 
             peaksPerQuantom++;
             lblPeakPerQuantum.Text = peaksPerQuantom.ToString();
@@ -545,54 +479,8 @@ namespace SimpleSerial
             serialPort1.Write("s" + red + green + blue + endChar);   
         }
 
-        private void musicProgBarLeft_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        //void SmartShowSelector() // for sequence effects
-        //{
-        //    if (effectReplayCount > EFFECT_REPLAY_COUNT)
-        //    {
-        //        effectReplayCount = 0;
-        //        currentEffect = 0; // call for new effect 
-        //    }
-        //    switch (currentEffect)
-        //    {
-        //        case 0:
-        //          //  lastColor = RandomColor();
-        //            effectReplayCount = 0;
-        //            currentEffect = myRandom(1, 4);
-                    
-        //            //RandomShow();
-        //            break;
-        //        case 1:
-        //            serialPort1.Write(Effect.Bars);
-        //            effectReplayCount++;
-        //            break;
-        //        case 2:
-        //          //  Bars_Middle(false);
-        //            serialPort1.Write(Effect.Bars_Middle);
-        //            effectReplayCount++;
-        //            break;
-        //        case 3:
-        //            serialPort1.Write(Effect.Octet_Random);
-        //            effectReplayCount++;
-        //         //   Octet_Random(myRandom(0, 8), RandomColor(), true);
-        //            break;
-        //        case 4:
-        //            serialPort1.Write(Effect.Couples);
-        //            effectReplayCount++;
-        //            break;
-
-        //    }
-
-        //    // effectReplayCount++; 
-        //}
-
-
-        int myRandom(int first, int last)
+       
+        int MyRandom(int first, int last)
         {
             Random rnd = new Random();
             int num = rnd.Next(first, last + 1);
@@ -631,17 +519,16 @@ namespace SimpleSerial
             TestFunction();
         }
 
-        public void TestFunction() /////////////////////////////////////sdsddsdd//////////////////
+        public void TestFunction() // todo: remove this function and add to the callers
         {
           //  BarsFromMiddle(true);
           //  BarsMiddleFlash(true);
         //    SmartBarsFlash(true, 16, true);
-
               ShowSelector();
         }
 
 
-        public void Quarter(int quarter,bool cleanStrip)
+        public void Quarter(int quarter,bool cleanStrip) // Turn on 1/4 of the leds 
         {
             if (quarter > 4)
                 return;
@@ -653,7 +540,7 @@ namespace SimpleSerial
         }
 
 
-        public void Octet(int octet, bool cleanStrip)
+        public void Octet(int octet, bool cleanStrip) // Turn on 1/8 of the leds 
         {
             if (octet > 8)
                 return;
@@ -664,7 +551,7 @@ namespace SimpleSerial
             serialPort1.Write(cmd, 0, 5);
         }
 
-        public void Nibble(int position, bool cleanStrip)
+        public void Nibble(int position, bool cleanStrip) // Turn on 1/16 of the leds 
         {
             if (position > 16 || position<1)
                 return;
@@ -684,8 +571,7 @@ namespace SimpleSerial
         }
 
 
-        private int currentEffectStep = 0;
-        private int sleepBetweenCommands = 20; // Prevent arduino buffer overflow
+
 
         public void BarsFromMiddle(Boolean colorFull)
         {
@@ -780,7 +666,7 @@ namespace SimpleSerial
         }
 
 
-        public void EndOfEffect()
+        public void EndOfEffect() // called when the current effect finished
         {
             ClearStrip();
             currentEffectStep = 0;
@@ -867,13 +753,10 @@ namespace SimpleSerial
 
 
 
-
-
         public void ShowSelector()
         {
             if (currentEffect == 0)
                 currentEffect = MyRandom_Effect(1, 4);
-
             switch (currentEffect)
             {
                 case 1:
@@ -888,34 +771,15 @@ namespace SimpleSerial
                 case 4:
                     RandomPartOn();
                     break;
-                case 5:
-                    SolidColor();
-                    break;
             }
 
             Thread.Sleep(sleepBetweenCommands);
-
-
         }
 
         private void timerPeaksCounterReset_Tick(object sender, EventArgs e)
         {
             peaksPerQuantom = 0;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
 

@@ -237,7 +237,6 @@ namespace SimpleSerial
             this.musicProgBarLeft.Name = "musicProgBarLeft";
             this.musicProgBarLeft.Size = new System.Drawing.Size(432, 16);
             this.musicProgBarLeft.TabIndex = 16;
-            this.musicProgBarLeft.Click += new System.EventHandler(this.musicProgBarLeft_Click);
             // 
             // timer1
             // 

@@ -9,3 +9,15 @@ E:\HDD\Projects_C#\LedControl\SimpleSerial\SimpleSerial\obj\Debug\SimpleSerial.P
 E:\HDD\Projects_C#\LedControl\SimpleSerial\SimpleSerial\obj\Debug\LedStripController.csproj.GenerateResource.Cache
 E:\HDD\Projects_C#\LedControl\SimpleSerial\SimpleSerial\obj\Debug\SimpleSerial.exe
 E:\HDD\Projects_C#\LedControl\SimpleSerial\SimpleSerial\obj\Debug\SimpleSerial.pdb
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\SimpleSerial.exe.config
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\SimpleSerial.exe
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\SimpleSerial.pdb
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\SimpleSerial.exe
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\SimpleSerial.pdb
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\NAudio.dll
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\NAudio.WindowsMediaFormat.dll
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\bin\Debug\NAudio.xml
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\LedStripController.csprojResolveAssemblyReference.cache
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\SimpleSerial.Form1.resources
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\SimpleSerial.Properties.Resources.resources
+E:\HDD\CodeProjects\GitHub\LedStrip_Controller\SimpleSerial\obj\Debug\LedStripController.csproj.GenerateResource.Cache
