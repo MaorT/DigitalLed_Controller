@@ -1,2 +1,2 @@
 Baud:115200
-Com:COM9
+Com:COM7

@@ -68,10 +68,16 @@ namespace SimpleSerial
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnTest2 = new System.Windows.Forms.Button();
+            this.groupBoxSettings = new System.Windows.Forms.GroupBox();
+            this.hScrollBarBrgihtness = new System.Windows.Forms.HScrollBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.labelBrightness = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStart
@@ -285,7 +291,7 @@ namespace SimpleSerial
             // 
             // saveSetupBtn
             // 
-            this.saveSetupBtn.Location = new System.Drawing.Point(12, 543);
+            this.saveSetupBtn.Location = new System.Drawing.Point(13, 639);
             this.saveSetupBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveSetupBtn.Name = "saveSetupBtn";
             this.saveSetupBtn.Size = new System.Drawing.Size(141, 28);
@@ -297,8 +303,6 @@ namespace SimpleSerial
             // musicControllChkBox
             // 
             this.musicControllChkBox.AutoSize = true;
-            this.musicControllChkBox.Checked = true;
-            this.musicControllChkBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.musicControllChkBox.Location = new System.Drawing.Point(553, 26);
             this.musicControllChkBox.Margin = new System.Windows.Forms.Padding(4);
             this.musicControllChkBox.Name = "musicControllChkBox";
@@ -309,7 +313,7 @@ namespace SimpleSerial
             // 
             // customColorBtn
             // 
-            this.customColorBtn.Location = new System.Drawing.Point(793, 531);
+            this.customColorBtn.Location = new System.Drawing.Point(674, 639);
             this.customColorBtn.Margin = new System.Windows.Forms.Padding(4);
             this.customColorBtn.Name = "customColorBtn";
             this.customColorBtn.Size = new System.Drawing.Size(141, 28);
@@ -347,7 +351,7 @@ namespace SimpleSerial
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(947, 531);
+            this.btnTest.Location = new System.Drawing.Point(826, 640);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(109, 28);
             this.btnTest.TabIndex = 27;
@@ -463,12 +467,67 @@ namespace SimpleSerial
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Serial IN";
             // 
+            // btnTest2
+            // 
+            this.btnTest2.Location = new System.Drawing.Point(958, 640);
+            this.btnTest2.Name = "btnTest2";
+            this.btnTest2.Size = new System.Drawing.Size(109, 27);
+            this.btnTest2.TabIndex = 32;
+            this.btnTest2.Text = "TEST2";
+            this.btnTest2.UseVisualStyleBackColor = true;
+            this.btnTest2.Click += new System.EventHandler(this.btnTest2_Click);
+            // 
+            // groupBoxSettings
+            // 
+            this.groupBoxSettings.Controls.Add(this.hScrollBarBrgihtness);
+            this.groupBoxSettings.Controls.Add(this.label8);
+            this.groupBoxSettings.Controls.Add(this.labelBrightness);
+            this.groupBoxSettings.Location = new System.Drawing.Point(17, 507);
+            this.groupBoxSettings.Name = "groupBoxSettings";
+            this.groupBoxSettings.Size = new System.Drawing.Size(719, 88);
+            this.groupBoxSettings.TabIndex = 33;
+            this.groupBoxSettings.TabStop = false;
+            this.groupBoxSettings.Text = "Settings";
+            // 
+            // hScrollBarBrgihtness
+            // 
+            this.hScrollBarBrgihtness.LargeChange = 5;
+            this.hScrollBarBrgihtness.Location = new System.Drawing.Point(87, 36);
+            this.hScrollBarBrgihtness.Maximum = 104;
+            this.hScrollBarBrgihtness.Name = "hScrollBarBrgihtness";
+            this.hScrollBarBrgihtness.Size = new System.Drawing.Size(431, 17);
+            this.hScrollBarBrgihtness.TabIndex = 17;
+            this.hScrollBarBrgihtness.Value = 20;
+            this.hScrollBarBrgihtness.ValueChanged += new System.EventHandler(this.hScrollBarBrgihtness_ValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 36);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(75, 17);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Brightness";
+            // 
+            // labelBrightness
+            // 
+            this.labelBrightness.AutoSize = true;
+            this.labelBrightness.Location = new System.Drawing.Point(532, 36);
+            this.labelBrightness.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelBrightness.Name = "labelBrightness";
+            this.labelBrightness.Size = new System.Drawing.Size(24, 17);
+            this.labelBrightness.TabIndex = 18;
+            this.labelBrightness.Text = "20";
+            // 
             // Form1
             // 
             this.AcceptButton = this.sendBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 584);
+            this.ClientSize = new System.Drawing.Size(1084, 680);
+            this.Controls.Add(this.groupBoxSettings);
+            this.Controls.Add(this.btnTest2);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -497,6 +556,8 @@ namespace SimpleSerial
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBoxSettings.ResumeLayout(false);
+            this.groupBoxSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -543,6 +604,11 @@ namespace SimpleSerial
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnTest2;
+        private System.Windows.Forms.GroupBox groupBoxSettings;
+        private System.Windows.Forms.HScrollBar hScrollBarBrgihtness;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labelBrightness;
     }
 }
 

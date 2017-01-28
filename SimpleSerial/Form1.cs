@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
@@ -53,6 +54,11 @@ namespace SimpleSerial
         private int currentEffectStep = 0;
 
 
+        private Matrix _matrix;
+
+        private bool runEffect = false;
+
+
         
 
         public Form1()
@@ -61,6 +67,8 @@ namespace SimpleSerial
             sensivityScrollBar.Value = 57;
             de = new MMDeviceEnumerator();
             mediaDevice = de.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+
+            _matrix = new Matrix(10,20,serialPort1);
 
         }
 
@@ -141,7 +149,16 @@ namespace SimpleSerial
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (serialPort1.IsOpen) serialPort1.Close();
+            try
+            {
+                if (serialPort1.IsOpen) serialPort1.Close();
+            }
+            catch (Exception ex)
+            {
+                
+                
+            }
+            
         }
 
 
@@ -405,14 +422,16 @@ namespace SimpleSerial
         private void EffectsLeft()
         {
            // todo : add left effects
-            Quarter(4,true);
+            TestFunction();
+
 
         }
 
         private void EffectsRight()
         {
             // todo : add right effects
-            Quarter(1, true);
+            TestFunction();
+
 
         }
 
@@ -422,8 +441,9 @@ namespace SimpleSerial
          //   //Quarter(myRandom(1, 4),true);
          //   Octet(myRandom(1,8),true);
          ////   serialPort1.Write("a");
-      //   TestFunction();
-            Flash();
+            TestFunction();
+
+          //  _matrix.Flash(0,0,255);
 
         }
 
@@ -463,7 +483,7 @@ namespace SimpleSerial
             if (MyDialog.ShowDialog() == DialogResult.OK)
             {
                 c = MyDialog.Color;
-                SolidColor(c);
+                _matrix.SolidColor(c.R,c.G,c.B);
             }
 
         }
@@ -516,16 +536,71 @@ namespace SimpleSerial
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            TestFunction();
+            //serialPort1.Write
+           // TestFunction();
+          //  testStripWrite();
+
+           _matrix.RandomSolidColor();
+          // _matrix.Runner(0, 255, 120, 10);
         }
 
-        public void TestFunction() // todo: remove this function and add to the callers
+        public void testStripWrite()
         {
-          //  BarsFromMiddle(true);
-          //  BarsMiddleFlash(true);
-        //    SmartBarsFlash(true, 16, true);
-              ShowSelector();
+            int numOfPixel = 200;
+            int bufferSize = 200;
+            int sleepTime = 10;
+
+            int numOfBytes = numOfPixel * 3 + 1;
+
+            char[] fullBuff =  new char[numOfBytes];
+
+            Random rand = new Random();
+            
+        
+            for (int i =0 ; i< numOfBytes-1;  i++)
+            {
+                int num = rand.Next(3, 256);
+                char ch = (char) num;
+                fullBuff[i] = ch;
+            }
+
+            fullBuff[numOfBytes - 1] = (char) 1;
+
+ 
+
+            int numOfPackets = numOfBytes/bufferSize;
+
+            int ptr = 0;
+
+
+            for (int i = 0; i < numOfPackets; i++)
+            {
+                serialPort1.Write(fullBuff, ptr,bufferSize);
+                ptr += bufferSize;
+             //   Sleep(sleepTime);       
+            }
+
+            serialPort1.Write(fullBuff, ptr, 1);
+
+
+            
         }
+
+
+        private void Sleep(int sleepTime)
+        {
+            try
+            {
+                Thread.Sleep(sleepTime);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
 
         public void Quarter(int quarter,bool cleanStrip) // Turn on 1/4 of the leds 
@@ -780,6 +855,39 @@ namespace SimpleSerial
         {
             peaksPerQuantom = 0;
         }
+
+        private void btnTest2_Click(object sender, EventArgs e)
+        {
+           // _matrix.SinglePixel(0, 9, 255, 0, 0, true);
+            //_matrix.Runner(255, 0, 0,10);
+          //  _matrix.DrawRect(0,0,5,5,255,0,120,true);
+          //  _matrix.DrawRect_Random(4,255,0,0,true);
+            _matrix.DancingMan(0,255,0);
+        }
+
+        private void hScrollBarBrgihtness_ValueChanged(object sender, EventArgs e)
+        {
+            labelBrightness.Text = hScrollBarBrgihtness.Value.ToString();
+            _matrix.SetBrightness(int.Parse(labelBrightness.Text));
+
+        }
+
+        public void TestFunction() // todo: remove this function and add to the callers
+        {
+            //  BarsFromMiddle(true);
+            //  BarsMiddleFlash(true);
+            //    SmartBarsFlash(true, 16, true);
+            //  ShowSelector();
+            // _matrix.SinglePixel(0, 9, 255, 0, 0, true);
+            //_matrix.Runner(255, 0, 0,10);
+            //  _matrix.DrawRect(0,0,5,5,255,0,120,true);
+            // _matrix.DrawRect_Random(4, 255, 0, 0, true);
+
+           // _matrix.DancingMan(0,255,0);
+
+            _matrix.SequenceEffectPlayer();
+        }
+
     }
 }
 
