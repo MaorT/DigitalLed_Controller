@@ -35,7 +35,11 @@ namespace SimpleSerial
             bar,
             barFill,
             randomRect,
-            dancingMan
+            flash,
+            EatSleepRaveRepeat,
+            DancingMan,
+            Smiley
+            
  
         }
 
@@ -51,6 +55,8 @@ namespace SimpleSerial
         private int _currentBrightness;
         
         private bool serialReadyFlag = true;
+
+        private bool timedEffectOnProgress = false;
 
 
 
@@ -411,10 +417,18 @@ namespace SimpleSerial
                 case EffectName.randomRect:
                     DrawRect_Random(rand.Next(2, 4), RandomWithout1(), RandomWithout1(), RandomWithout1(),true);
                     break;
-                case EffectName.dancingMan:
-                    DancingMan(0,255,0);
+                case EffectName.flash:
+                    Flash(0,0,255);
                     break;
-
+                case EffectName.DancingMan:
+                    DancingMan_RandomColor();
+                    break;
+                case EffectName.EatSleepRaveRepeat:
+                    EatSleepRaveRepeat();
+                    break;
+                case EffectName.Smiley:
+                    Smiley();
+                    break;
             }
         }
 
@@ -543,14 +557,17 @@ namespace SimpleSerial
         {
             SolidColor(r,g,b);
 
+            if(sequenceEffectStep++ > 5)
+                NextEffect();
+
          //   ClearStrip();
 
-            //var thread = new Thread(() =>
-            //{
-            //    Thread.Sleep(10);
-            //    ClearStrip();
-            //});
-            //thread.Start();
+            var thread = new Thread(() =>
+            {
+                Thread.Sleep(10);
+                ClearStrip();
+            });
+            thread.Start();
             
         }
 
@@ -585,78 +602,34 @@ namespace SimpleSerial
 
         }
 
-        public void DancingMan2(int r, int g, int b)
+        public void DrawFromIndexs_RandomColor(int[] indexs, bool cleanBeforeDraw)
         {
+            if (cleanBeforeDraw)
+                CleanArr();
 
-            
-            switch (sequenceEffectStep)
+            int size = indexs.Length;
+
+            int r = RandomWithout1();
+            int g = RandomWithout1();
+            int b = RandomWithout1();
+
+            for (int i = 0; i < size; i++)
             {
-                case 0:
-                    int[] values0 = { 9, 11, 23, 29, 31, 37, 43, 50, 57, 64, 70, 76, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 110, 129, 130, 131, 147, 148, 152, 153, 167, 169, 171, 173, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values0, r, g, b,true);
-                    sequenceEffectStep++;
-                    break;
-                case 1:
-                    int[] values1 = { 8, 12, 29, 31, 50, 70, 86, 87, 88, 89, 90, 91, 92, 93, 105, 110, 114, 121, 122, 123, 124, 129, 130, 131, 135, 136, 137, 138, 147, 148, 152, 153, 167, 169, 171, 173, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values1, r, g, b, true);
-                    sequenceEffectStep++;
-                    break;
-                case 2:
-                    int[] values2 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 106, 110, 114, 125, 129, 130, 131, 135, 144, 147, 148, 152, 153, 156, 161, 162, 163, 167, 169, 171, 173, 177, 178, 179, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values2, r, g, b, true);
-                    sequenceEffectStep ++;
-                    break;
-                case 3:
-                    int[] values3 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 106, 110, 114, 125, 129, 130, 131, 135, 144, 147, 148, 152, 153, 156, 163, 164, 165, 167, 169, 171, 173, 175, 176, 177, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values3, r, g, b, true);
-                    sequenceEffectStep++;
-                    break;
-                case 4:
-                    int[] values4 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 106, 110, 114, 125, 129, 130, 131, 135, 144, 147, 148, 152, 153, 156, 163, 167, 169, 171, 173, 177, 184, 185, 187, 188, 189, 190, 191, 192, 193, 195, 196 };
-                    DrawFromIndexs(values4, r, g, b, true);
-                    sequenceEffectStep++;
-                    break;
-                case 5:
-                    int[] values5 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 102, 106, 110, 114, 122, 125, 129, 130, 131, 135, 143, 144, 147, 148, 152, 153, 156, 167, 169, 171, 173, 177, 187, 188, 189, 190, 191, 192, 193, 195, 196 };
-                    DrawFromIndexs(values5, r, g, b, true);
-                    sequenceEffectStep ++;
-                    break;
-                case 6:
-                    int[] values6 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 106, 110, 114, 118, 125, 129, 130, 131, 135, 138, 144, 147, 148, 152, 153, 156, 157, 163, 167, 169, 171, 173, 184, 185, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values6, r, g, b, true);
-                    sequenceEffectStep ++;
-                    break;
-                case 7:
-                    int[] values7 = { 8, 12, 29, 31, 50, 70, 87, 88, 89, 90, 91, 92, 93, 102, 106, 110, 114, 118, 122, 125, 129, 130, 131, 135, 138, 143, 144, 147, 148, 152, 153, 156, 157, 167, 169, 171, 173, 187, 188, 189, 190, 191, 192, 193 };
-                    DrawFromIndexs(values7, r, g, b, true);
-                    sequenceEffectStep = 0;
-                    break;
+                int pixel = indexs[i] * 3;
+                _stripBuffer[pixel] = (byte)g;
+                _stripBuffer[pixel + 1] = (byte)r;
+                _stripBuffer[pixel + 2] = (byte)b;
             }
+
+            Show(false);
+
+
         }
 
+     
 
         public void DancingMan(int r, int g, int b)
         {
-            int[][] effectMatrix2 = 
-            {
-                new int[] {8,12,29,31,47,50,53,68,70,72,89,90,91,110,129,130,131,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {8,12,29,31,50,70,86,87,88,89,90,91,92,93,94,110,129,130,131,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {8,12,29,31,50,70,88,89,90,91,92,107,110,113,126,129,130,131,134,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {9,11,29,31,50,70,88,89,90,91,92,107,110,113,126,129,130,131,134,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {8,11,29,31,50,54,70,73,88,89,90,91,92,107,110,126,129,130,131,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {9,12,29,31,50,70,88,89,90,91,92,107,110,113,126,129,130,131,134,147,148,152,153,167,169,171,173,187,188,189,190,191,192,193},
-                new int[] {8,12,29,31,50,51,70,72,88,89,90,91,92,93,107,110,126,129,130,131,147,148,152,153,167,169,173,187,188,189,190,191,192,193},
-                new int[] {8,12,29,31,48,50,51,67,70,87,88,89,90,91,92,93,110,114,129,130,131,135,147,148,152,153,167,171,173,187,188,189,190,191,192,193}
-
-            };
-
-            int[][] effectMatrix1 = 
-            {
-                new int[] {9,11,29,31,50,70,87,88,89,90,91,92,93,107,110,113,126,127,129,130,131,133,134,148,152,167,169,171,173,188,189,190,191,192},
-                new int[] {9,11,29,31,50,70,88,89,90,91,92,107,110,113,125,126,129,130,131,134,135,136,148,152,167,169,171,173,188,189,190,191,192},
-                new int[] {9,11,29,31,50,70,88,89,90,91,92,107,110,113,126,129,130,131,134,145,148,152,155,165,167,169,171,173,175,188,189,190,191,192}
-            };
-
             int[][] effectMatrix = 
             {
                 new int[] {9,11,29,31,50,70,86,87,88,89,90,91,92,93,94,105,110,115,125,129,130,131,135,148,152,167,169,171,173,188,189,190,191,192},
@@ -669,11 +642,12 @@ namespace SimpleSerial
             };
 
 
+
             DrawFromIndexs(effectMatrix[sequenceEffectStep++ % effectMatrix.Count()], r, g, b, true);
 
-            int x = effectMatrix.Count();
+            WaitBeforeNextShow(30);
 
-            if (sequenceEffectStep == effectMatrix.Count()*20)
+            if (sequenceEffectStep == effectMatrix.Count()*5)
             {
                 sequenceEffectStep = 0;
                 NextEffect();
@@ -683,7 +657,127 @@ namespace SimpleSerial
         }
 
 
+        public void DancingMan_RandomColor()
+        {
+            int r = RandomWithout1();
+            int g = RandomWithout1();
+            int b = RandomWithout1();
+            DancingMan(r,g,b);
+            
+        }
 
+
+        //public void EatSleepRaveRepeat_Timed()
+        //{
+        //    if (timedEffectOnProgress)
+        //        return;
+
+        //    timedEffectOnProgress = true;
+
+        //    TimedEffectFunction(EffectName.EatSleepRaveRepeat, 250);
+        //}
+
+
+
+        public void EatSleepRaveRepeat()
+        {
+            if (!serialReadyFlag)
+                return;
+ 
+            int[][] effectMatrix = 
+            {
+                new int[] {24,28,32,34,35,36,37,44,48,52,57,64,68,72,77,84,88,92,97,104,108,109,110,111,112,114,115,116,117,124,128,132,137,144,148,152,157,162,163,164,165,166,168,169,170,171,172,174,175,176,177},
+                new int[] {23,25,26,27,29,30,31,33,34,35,37,38,39,43,47,51,55,57,63,67,71,75,77,83,87,91,95,97,100,101,102,103,105,106,107,109,110,111,115,117,118,119,120,123,127,131,135,139,140,143,147,151,155,159,160,161,162,163,165,166,167,169,170,171,175,177,178,179},
+                new int[] {20,21,22,26,30,33,35,39,42,45,47,50,53,56,59,62,64,68,70,73,77,79,82,84,88,90,93,98,99,100,101,102,104,108,110,111,112,113,116,117,118,119,122,124,128,130,133,135,139,142,144,148,150,153,155,159,160,161,162,164,168,170,171,172,173,176,177,178,179},
+                new int[] {21,24,26,28,29,32,34,35,37,39,41,44,46,49,52,55,58,59,61,64,66,69,72,75,79,81,84,86,89,92,95,99,101,104,105,106,108,109,112,114,115,118,119,121,124,126,129,131,132,135,137,139,141,144,146,149,150,152,155,157,159,160,161,162,164,165,166,168,169,170,171,172,174,175,178,179}
+            };
+
+            DrawFromIndexs_RandomColor(effectMatrix[sequenceEffectStep++ % effectMatrix.Count()], true);
+
+            
+            WaitBeforeNextShow(20);
+            
+            if (sequenceEffectStep == effectMatrix.Count() * 2)
+            {
+                sequenceEffectStep = 0;
+                NextEffect();
+            }
+
+        }
+
+
+        public void Smiley()
+        {
+            if (!serialReadyFlag)
+                return;
+
+            int[][] effectMatrix = 
+            {
+                new int[] {8,9,10,11,12,27,33,44,45,46,47,48,49,50,51,52,53,54,55,56,90,105,106,107,110,113,114,115,124,128,132,136,143,146,149,151,154,157,164,168,172,176,185,186,187,193,194,195},
+
+            };
+
+            DrawFromIndexs_RandomColor(effectMatrix[sequenceEffectStep++ % effectMatrix.Count()], true);
+
+
+            WaitBeforeNextShow(100);
+
+            if (sequenceEffectStep == effectMatrix.Count() * 2)
+            {
+                sequenceEffectStep = 0;
+                NextEffect();
+            }
+
+        }
+
+
+        
+
+
+
+        private void TimedEffectFunction(EffectName effectName,int speedMs)
+        {
+            int x = 5;
+        
+
+            var thread = new Thread(() =>
+            {
+                switch (effectName)
+                {
+                    case EffectName.EatSleepRaveRepeat:
+                        while (currentEffect == EffectName.EatSleepRaveRepeat)
+                        {
+                            EatSleepRaveRepeat();
+                            Thread.Sleep(speedMs);
+                        }
+
+                        break;
+                }
+
+                timedEffectOnProgress = false;
+
+            });
+
+            
+            thread.Start();
+        }
+
+
+
+        public void WaitBeforeNextShow(int ms)
+        {
+            Thread.Sleep(10);
+
+            serialReadyFlag = false;
+
+            var thread = new Thread(() =>
+            {
+                Thread.Sleep(ms);
+                serialReadyFlag = true;
+            });
+            thread.Start();
+
+        }
 
 }
 
