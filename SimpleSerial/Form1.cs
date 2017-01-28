@@ -68,7 +68,7 @@ namespace SimpleSerial
             de = new MMDeviceEnumerator();
             mediaDevice = de.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 
-            _matrix = new Matrix(10,20,serialPort1);
+            _matrix = new Matrix(10,20,"192.168.1.136");
 
         }
 
@@ -393,7 +393,7 @@ namespace SimpleSerial
 
         private void MusicControll_Function(float mastervolume, float volumeLeft, float volumeRight)
         {
-            if (mastervolume < sensivityScrollBar.Value || !serialPort1.IsOpen)
+            if (mastervolume < sensivityScrollBar.Value)
                 return;
 
             peaksPerQuantom++;

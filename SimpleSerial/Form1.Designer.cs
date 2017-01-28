@@ -303,6 +303,8 @@ namespace SimpleSerial
             // musicControllChkBox
             // 
             this.musicControllChkBox.AutoSize = true;
+            this.musicControllChkBox.Checked = true;
+            this.musicControllChkBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.musicControllChkBox.Location = new System.Drawing.Point(553, 26);
             this.musicControllChkBox.Margin = new System.Windows.Forms.Padding(4);
             this.musicControllChkBox.Name = "musicControllChkBox";

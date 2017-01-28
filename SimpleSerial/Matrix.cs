@@ -23,8 +23,8 @@ namespace SimpleSerial
         private int _totalPixels;
 
 
-        private char[] _sendBuffer;
-        private char[] _stripBuffer;
+        private byte[] _sendBuffer;
+        private byte[] _stripBuffer;
 
         private Pixel[,] _seqTempMatrix;
 
@@ -43,7 +43,9 @@ namespace SimpleSerial
 
         private int sequenceEffectStep = 0;
 
-        private SerialPort _serial;
+    //    private SerialPort _serial;
+
+        private ArtNetEngine artNetEngine;
         private Random rand;
 
         private int _currentBrightness;
@@ -52,7 +54,7 @@ namespace SimpleSerial
 
 
 
-        public Matrix(int numOfRows, int numOfColumns,SerialPort serialPort)
+        public Matrix(int numOfRows, int numOfColumns,string ipAddress)
         {
             _numOfRows = numOfRows;
             _numOfColumns = numOfColumns;
@@ -60,8 +62,8 @@ namespace SimpleSerial
 
             int numOfBytes = _totalPixels * 3; // todo: fix the last pixel
 
-            _stripBuffer = new char[numOfBytes];
-            _sendBuffer  = new char[numOfBytes];
+            _stripBuffer = new byte[numOfBytes];
+            _sendBuffer = new byte[numOfBytes];
 
             _seqTempMatrix = new Pixel[_numOfRows,_numOfColumns];
 
@@ -69,7 +71,11 @@ namespace SimpleSerial
 
         //    _pixelsArray = new Pixel[_totalPixels];
 
-            _serial = serialPort;
+           // _serial = serialPort;
+            artNetEngine = new ArtNetEngine("MyArtNet", ipAddress);
+            artNetEngine.Start();
+
+
             //_endChar = new char[1];
             //_endChar[0] = (char) 1;
 
@@ -93,9 +99,9 @@ namespace SimpleSerial
             //blue = BrightConvertor(blue);
 
 
-            char redC = (char) red;
-            char greenC = (char)green;
-            char blueC = (char)blue;
+            byte redC = (byte) red;
+            byte greenC = (byte)green;
+            byte blueC = (byte)blue;
 
             //if (redC == 1 || greenC == 1 || blueC == 1)
             //{
@@ -113,9 +119,9 @@ namespace SimpleSerial
         {
             int pixelNum = Pixel_Get_Index(x, y);
 
-            char redC = (char)((color.R));
-            char greenC = (char)(color.G);
-            char blueC = (char)(color.B) ;
+            byte redC = (byte)((color.R));
+            byte greenC = (byte)(color.G);
+            byte blueC = (byte)(color.B);
 
             //if (redC == 1 || greenC == 1 || blueC == 1)
             //{
@@ -171,7 +177,7 @@ namespace SimpleSerial
                 int currentVal = _stripBuffer[i];
                 int val = (int)(currentVal * (1.0 * _currentBrightness / 100));
            //     temp[0] = (char) val;
-                _sendBuffer[i] = (char)val;
+                _sendBuffer[i] = (byte)val;
                // _serial.Write(temp, 0, 1);
             //    Sleep(5);
 
@@ -221,9 +227,9 @@ namespace SimpleSerial
         //    CleanArr();
             for (int i = 0; i < _totalPixels * 3; i += 3)
             {
-                _stripBuffer[i] = (char) green;
-                _stripBuffer[i + 1] = (char)red;
-                _stripBuffer[i + 2] = (char)blue;
+                _stripBuffer[i] = (byte)green;
+                _stripBuffer[i + 1] = (byte)red;
+                _stripBuffer[i + 2] = (byte)blue;
             }
             Show(false);
         }
@@ -322,9 +328,9 @@ namespace SimpleSerial
 
             for (int i = 0; i < _totalPixels*3; i += 3)
             {
-                _stripBuffer[i] = (char) g;
-                _stripBuffer[i + 1] = (char) r;
-                _stripBuffer[i + 2] = (char) b;
+                _stripBuffer[i] = (byte)g;
+                _stripBuffer[i + 1] = (byte)r;
+                _stripBuffer[i + 2] = (byte)b;
                 
                 Sleep(delay);
                 Show(false);
@@ -361,9 +367,9 @@ namespace SimpleSerial
 
 
 
-        public void ShowThread(char[] buff,int offset,int size)
+        public void ShowThread(byte[] buff,int offset,int size)
         {
-            if (!serialReadyFlag || !_serial.IsOpen)
+            if (!serialReadyFlag)
                 return;
 
                 var thread = new Thread(() =>
@@ -376,11 +382,11 @@ namespace SimpleSerial
                     //    Thread.Sleep(2);
                     //}
                     serialReadyFlag = false;
-                    if (_serial.IsOpen)
-                    {
-                        _serial.Write(buff, offset, size);
-                        _serial.Write(temp, 0, 1);    
-                    }
+
+                 //   artNetEngine.SendDMX(buff, offset, size);
+                    artNetEngine.SendDMX(0, buff, _totalPixels*3);
+                   // _serial.Write(temp, 0, 1);    
+               
 
 
                     serialReadyFlag = true;
@@ -569,9 +575,9 @@ namespace SimpleSerial
             for (int i = 0; i < size; i ++)
             {
                 int pixel = indexs[i]*3;
-                _stripBuffer[pixel] = (char)g;
-                _stripBuffer[pixel + 1] = (char)r;
-                _stripBuffer[pixel + 2] = (char)b;
+                _stripBuffer[pixel] = (byte)g;
+                _stripBuffer[pixel + 1] = (byte)r;
+                _stripBuffer[pixel + 2] = (byte)b;
             }
 
             Show(false);
