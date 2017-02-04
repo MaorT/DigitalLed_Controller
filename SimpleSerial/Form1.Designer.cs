@@ -57,11 +57,25 @@ namespace SimpleSerial
             this.hScrollBarBrgihtness = new System.Windows.Forms.HScrollBar();
             this.label8 = new System.Windows.Forms.Label();
             this.labelBrightness = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblDeviceIp = new System.Windows.Forms.Label();
+            this.txtDeviceIP = new System.Windows.Forms.TextBox();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.btnTurnOffLight = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.panelEffectsPanel = new System.Windows.Forms.Panel();
             tempTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tempTimer
+            // 
+            tempTimer.Enabled = true;
+            tempTimer.Tick += new System.EventHandler(this.tempTimer_Tick);
             // 
             // musicProgBarLeft
             // 
@@ -285,12 +299,12 @@ namespace SimpleSerial
             this.groupBoxSettings.Controls.Add(this.hScrollBarBrgihtness);
             this.groupBoxSettings.Controls.Add(this.label8);
             this.groupBoxSettings.Controls.Add(this.labelBrightness);
-            this.groupBoxSettings.Location = new System.Drawing.Point(17, 507);
+            this.groupBoxSettings.Location = new System.Drawing.Point(13, 256);
             this.groupBoxSettings.Name = "groupBoxSettings";
-            this.groupBoxSettings.Size = new System.Drawing.Size(719, 88);
+            this.groupBoxSettings.Size = new System.Drawing.Size(723, 88);
             this.groupBoxSettings.TabIndex = 33;
             this.groupBoxSettings.TabStop = false;
-            this.groupBoxSettings.Text = "Settings";
+            this.groupBoxSettings.Text = "Light settings:";
             // 
             // hScrollBarBrgihtness
             // 
@@ -323,16 +337,80 @@ namespace SimpleSerial
             this.labelBrightness.TabIndex = 18;
             this.labelBrightness.Text = "20";
             // 
-            // tempTimer
+            // groupBox3
             // 
-            tempTimer.Enabled = true;
-            tempTimer.Tick += new System.EventHandler(this.tempTimer_Tick);
+            this.groupBox3.Controls.Add(this.btnConnect);
+            this.groupBox3.Controls.Add(this.txtDeviceIP);
+            this.groupBox3.Controls.Add(this.lblDeviceIp);
+            this.groupBox3.Location = new System.Drawing.Point(13, 367);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(723, 85);
+            this.groupBox3.TabIndex = 34;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Connection settings";
+            // 
+            // lblDeviceIp
+            // 
+            this.lblDeviceIp.AutoSize = true;
+            this.lblDeviceIp.Location = new System.Drawing.Point(21, 35);
+            this.lblDeviceIp.Name = "lblDeviceIp";
+            this.lblDeviceIp.Size = new System.Drawing.Size(71, 17);
+            this.lblDeviceIp.TabIndex = 0;
+            this.lblDeviceIp.Text = "Device IP:";
+            // 
+            // txtDeviceIP
+            // 
+            this.txtDeviceIP.Location = new System.Drawing.Point(107, 35);
+            this.txtDeviceIP.Name = "txtDeviceIP";
+            this.txtDeviceIP.Size = new System.Drawing.Size(225, 22);
+            this.txtDeviceIP.TabIndex = 1;
+            this.txtDeviceIP.Text = "192.168.1.136";
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(366, 35);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(108, 23);
+            this.btnConnect.TabIndex = 2;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // btnTurnOffLight
+            // 
+            this.btnTurnOffLight.Location = new System.Drawing.Point(543, 639);
+            this.btnTurnOffLight.Name = "btnTurnOffLight";
+            this.btnTurnOffLight.Size = new System.Drawing.Size(109, 28);
+            this.btnTurnOffLight.TabIndex = 35;
+            this.btnTurnOffLight.Text = "Turn Off";
+            this.btnTurnOffLight.UseVisualStyleBackColor = true;
+            this.btnTurnOffLight.Click += new System.EventHandler(this.btnTurnOffLight_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.panelEffectsPanel);
+            this.groupBox4.Location = new System.Drawing.Point(774, 256);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(272, 336);
+            this.groupBox4.TabIndex = 36;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Active effects:";
+            // 
+            // panelEffectsPanel
+            // 
+            this.panelEffectsPanel.Location = new System.Drawing.Point(6, 21);
+            this.panelEffectsPanel.Name = "panelEffectsPanel";
+            this.panelEffectsPanel.Size = new System.Drawing.Size(260, 309);
+            this.panelEffectsPanel.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 680);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.btnTurnOffLight);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBoxSettings);
             this.Controls.Add(this.btnTest2);
             this.Controls.Add(this.groupBox2);
@@ -351,6 +429,9 @@ namespace SimpleSerial
             this.groupBox2.PerformLayout();
             this.groupBoxSettings.ResumeLayout(false);
             this.groupBoxSettings.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -384,6 +465,13 @@ namespace SimpleSerial
         private System.Windows.Forms.HScrollBar hScrollBarBrgihtness;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label labelBrightness;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.TextBox txtDeviceIP;
+        private System.Windows.Forms.Label lblDeviceIp;
+        private System.Windows.Forms.Button btnTurnOffLight;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel panelEffectsPanel;
     }
 }
 

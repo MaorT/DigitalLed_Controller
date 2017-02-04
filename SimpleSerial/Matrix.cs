@@ -28,6 +28,8 @@ namespace SimpleSerial
 
         private Pixel[,] _seqTempMatrix;
 
+        private List<string> activeEffectsList;
+
       //  private enum EffectName { bar,barFill };
 
         public enum EffectName : int
@@ -50,6 +52,7 @@ namespace SimpleSerial
     //    private SerialPort _serial;
 
         private ArtNetEngine artNetEngine;
+
         private Random rand;
 
         private int _currentBrightness;
@@ -60,7 +63,7 @@ namespace SimpleSerial
 
 
 
-        public Matrix(int numOfRows, int numOfColumns,string ipAddress)
+        public Matrix(int numOfRows, int numOfColumns)
         {
             _numOfRows = numOfRows;
             _numOfColumns = numOfColumns;
@@ -73,13 +76,16 @@ namespace SimpleSerial
 
             _seqTempMatrix = new Pixel[_numOfRows,_numOfColumns];
 
+            activeEffectsList = GetEffectsNamesList();
+
+            
+
           //  _stripBuffer[numOfBytes - 1] = (char)1; // Set the 'end char' (data end symbol)
 
         //    _pixelsArray = new Pixel[_totalPixels];
 
            // _serial = serialPort;
-            artNetEngine = new ArtNetEngine("MyArtNet", ipAddress);
-            artNetEngine.Start();
+
 
 
             //_endChar = new char[1];
@@ -94,6 +100,32 @@ namespace SimpleSerial
 
         }
 
+        public List<string> GetEffectsNamesList()
+        {
+            List<string> list = new List<string>();
+
+            foreach (var effect in Enum.GetValues(typeof(EffectName)))
+            {
+                list.Add(effect.ToString());   
+            }
+            return list;
+
+        }
+
+        public void SetEffectActiveState(string effectName, bool isActive)
+        {
+            if(isActive)
+                activeEffectsList.Add(effectName);
+            else
+                activeEffectsList.Remove(effectName); 
+        }
+
+
+        public void Connect(string ipAddress)
+        {
+            artNetEngine = new ArtNetEngine("MyArtNet", ipAddress);
+            artNetEngine.Start();  
+        }
 
         private void SetPixel(int x, int y,int red,int green,int blue)
         {
@@ -375,7 +407,7 @@ namespace SimpleSerial
 
         public void ShowThread(byte[] buff,int offset,int size)
         {
-            if (!serialReadyFlag)
+            if (!serialReadyFlag || artNetEngine == null)
                 return;
 
                 var thread = new Thread(() =>
@@ -512,9 +544,19 @@ namespace SimpleSerial
 
             var enumValues = Enum.GetValues(typeof(EffectName));
             var random = new Random();
-            var randomValue = (EffectName)enumValues.GetValue(random.Next(enumValues.Length));
+            string effectName = "";
 
-            currentEffect = randomValue;
+            if (activeEffectsList.Count == 0) return;
+
+            do
+            {
+                var randomValue = (EffectName) enumValues.GetValue(random.Next(enumValues.Length));
+                currentEffect = randomValue;
+                effectName = randomValue.ToString();
+
+            } while (!activeEffectsList.Contains(effectName));
+
+            
 
             sequenceEffectStep = 0;
 

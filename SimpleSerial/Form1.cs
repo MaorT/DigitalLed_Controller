@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,6 +39,9 @@ namespace SimpleSerial
         private int currentEffect = 0; // represent the current effect number.
         private int currentEffectStep = 0;
 
+        private int numOfActivatedEffects ;
+
+
         private Matrix _matrix;
 
       //  private bool runEffect = false;
@@ -52,7 +56,7 @@ namespace SimpleSerial
             de = new MMDeviceEnumerator();
             mediaDevice = de.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 
-            _matrix = new Matrix(10,20,"192.168.1.136");
+            _matrix = new Matrix(10,20);
 
         }
 
@@ -61,9 +65,46 @@ namespace SimpleSerial
 
             DefaultSetup_Load();
 
+            List<string> effectsList = _matrix.GetEffectsNamesList();
+            numOfActivatedEffects = effectsList.Count;
+            TableLayoutPanel table = new TableLayoutPanel();
+            table.RowCount = 1;
+            table.AutoSize = true;
+            
+
+            foreach (var effectName in effectsList)
+            {
+                CheckBox cBox = new CheckBox();
+                cBox.Checked = true;
+                cBox.CheckedChanged += delegate(object senderArg, EventArgs eArg)
+                {
+
+                    _matrix.SetEffectActiveState(cBox.Text, cBox.Checked);
+
+                    if (cBox.Checked)
+                        numOfActivatedEffects++;
+                    else
+                        numOfActivatedEffects--;
+
+                    if (numOfActivatedEffects == 0)
+                        MessageBox.Show("Can't disable all effect!\nThe last check effect will remain active until another one selected");
+
+                };
+                cBox.Text = effectName;
+                table.Controls.Add(cBox);
+
+            }
+
+
+            panelEffectsPanel.Controls.Add(table);
+
+            panelEffectsPanel.AutoScroll = true;
+
 
             // ComReceiveTxt.ScrollToCaret();
         }
+
+
 
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -382,11 +423,6 @@ namespace SimpleSerial
 
 
 
-
-
-
-
-
         //public void ColorRefresh()
         //{
         //    Random rand = new Random();
@@ -586,6 +622,46 @@ namespace SimpleSerial
         {
 
         }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                IPAddress.Parse(txtDeviceIP.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please enter a valid IP");
+                return;
+            }
+            try
+            {
+
+                _matrix.Connect(txtDeviceIP.Text);
+                txtDeviceIP.Enabled = false;
+                btnConnect.Enabled = false;
+         
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Can't connect!\nPlease check the IP and try again");
+            }
+
+        }
+
+        private void btnTurnOffLight_Click(object sender, EventArgs e)
+        {
+            _matrix.ClearStrip();
+            _matrix.ClearStrip();
+        }
+
+
+
+
+
+
 
     }
 }
