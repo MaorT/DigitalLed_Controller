@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -14,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using NAudio.Codecs;
 using NAudio.CoreAudioApi;
 
 
@@ -40,6 +42,35 @@ namespace SimpleSerial
         private int currentEffectStep = 0;
 
         private int numOfActivatedEffects ;
+
+
+        // --- For window draging (from top panel) ---- //
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+
+        // --- For window minimize (from taskbar) ---- //
+        const int WS_MINIMIZEBOX = 0x20000;
+        const int CS_DBLCLKS = 0x8;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style |= WS_MINIMIZEBOX;
+                cp.ClassStyle |= CS_DBLCLKS;
+                return cp;
+            }
+        }
+
+        
+
+
+ 
 
 
         private Matrix _matrix;
@@ -99,7 +130,6 @@ namespace SimpleSerial
             panelEffectsPanel.Controls.Add(table);
 
             panelEffectsPanel.AutoScroll = true;
-
 
             // ComReceiveTxt.ScrollToCaret();
         }
@@ -657,11 +687,24 @@ namespace SimpleSerial
             _matrix.ClearStrip();
         }
 
+        private void pictureBoxExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
+        private void pictureBoxMinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
 
-
-
-
+        private void panelTopPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
 
     }
 }

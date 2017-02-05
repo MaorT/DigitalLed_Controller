@@ -30,6 +30,7 @@ namespace SimpleSerial
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Timer tempTimer;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.musicProgBarLeft = new System.Windows.Forms.ProgressBar();
             this.musicTimer = new System.Windows.Forms.Timer(this.components);
             this.sensivityScrollBar = new System.Windows.Forms.HScrollBar();
@@ -58,18 +59,24 @@ namespace SimpleSerial
             this.label8 = new System.Windows.Forms.Label();
             this.labelBrightness = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblDeviceIp = new System.Windows.Forms.Label();
-            this.txtDeviceIP = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.txtDeviceIP = new System.Windows.Forms.TextBox();
+            this.lblDeviceIp = new System.Windows.Forms.Label();
             this.btnTurnOffLight = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panelEffectsPanel = new System.Windows.Forms.Panel();
+            this.panelTopPanel = new System.Windows.Forms.Panel();
+            this.pictureBoxMinimizeButton = new System.Windows.Forms.PictureBox();
+            this.pictureBoxExitButton = new System.Windows.Forms.PictureBox();
             tempTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.panelTopPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinimizeButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExitButton)).BeginInit();
             this.SuspendLayout();
             // 
             // tempTimer
@@ -132,13 +139,16 @@ namespace SimpleSerial
             // 
             // saveSetupBtn
             // 
+            this.saveSetupBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.saveSetupBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveSetupBtn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.saveSetupBtn.Location = new System.Drawing.Point(13, 639);
             this.saveSetupBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveSetupBtn.Name = "saveSetupBtn";
             this.saveSetupBtn.Size = new System.Drawing.Size(141, 28);
             this.saveSetupBtn.TabIndex = 22;
             this.saveSetupBtn.Text = "Save COM setting";
-            this.saveSetupBtn.UseVisualStyleBackColor = true;
+            this.saveSetupBtn.UseVisualStyleBackColor = false;
             this.saveSetupBtn.Click += new System.EventHandler(this.saveSetupBtn_Click);
             // 
             // musicControllChkBox
@@ -154,13 +164,16 @@ namespace SimpleSerial
             // 
             // customColorBtn
             // 
+            this.customColorBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.customColorBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customColorBtn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.customColorBtn.Location = new System.Drawing.Point(674, 639);
             this.customColorBtn.Margin = new System.Windows.Forms.Padding(4);
             this.customColorBtn.Name = "customColorBtn";
             this.customColorBtn.Size = new System.Drawing.Size(141, 28);
             this.customColorBtn.TabIndex = 23;
             this.customColorBtn.Text = "Custom Color";
-            this.customColorBtn.UseVisualStyleBackColor = true;
+            this.customColorBtn.UseVisualStyleBackColor = false;
             this.customColorBtn.Click += new System.EventHandler(this.customColorBtn_Click);
             // 
             // maxPeakLabel
@@ -192,12 +205,15 @@ namespace SimpleSerial
             // 
             // btnTest
             // 
+            this.btnTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTest.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnTest.Location = new System.Drawing.Point(826, 640);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(109, 28);
             this.btnTest.TabIndex = 27;
             this.btnTest.Text = "TEST";
-            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.UseVisualStyleBackColor = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // timerPeaksCounterReset
@@ -286,12 +302,15 @@ namespace SimpleSerial
             // 
             // btnTest2
             // 
+            this.btnTest2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.btnTest2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTest2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnTest2.Location = new System.Drawing.Point(958, 640);
             this.btnTest2.Name = "btnTest2";
             this.btnTest2.Size = new System.Drawing.Size(109, 27);
             this.btnTest2.TabIndex = 32;
             this.btnTest2.Text = "TEST2";
-            this.btnTest2.UseVisualStyleBackColor = true;
+            this.btnTest2.UseVisualStyleBackColor = false;
             this.btnTest2.Click += new System.EventHandler(this.btnTest2_Click);
             // 
             // groupBoxSettings
@@ -349,14 +368,18 @@ namespace SimpleSerial
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Connection settings";
             // 
-            // lblDeviceIp
+            // btnConnect
             // 
-            this.lblDeviceIp.AutoSize = true;
-            this.lblDeviceIp.Location = new System.Drawing.Point(21, 35);
-            this.lblDeviceIp.Name = "lblDeviceIp";
-            this.lblDeviceIp.Size = new System.Drawing.Size(71, 17);
-            this.lblDeviceIp.TabIndex = 0;
-            this.lblDeviceIp.Text = "Device IP:";
+            this.btnConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnect.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnConnect.Location = new System.Drawing.Point(364, 32);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(108, 28);
+            this.btnConnect.TabIndex = 2;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = false;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // txtDeviceIP
             // 
@@ -366,24 +389,26 @@ namespace SimpleSerial
             this.txtDeviceIP.TabIndex = 1;
             this.txtDeviceIP.Text = "192.168.1.136";
             // 
-            // btnConnect
+            // lblDeviceIp
             // 
-            this.btnConnect.Location = new System.Drawing.Point(366, 35);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(108, 23);
-            this.btnConnect.TabIndex = 2;
-            this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.lblDeviceIp.AutoSize = true;
+            this.lblDeviceIp.Location = new System.Drawing.Point(21, 35);
+            this.lblDeviceIp.Name = "lblDeviceIp";
+            this.lblDeviceIp.Size = new System.Drawing.Size(71, 17);
+            this.lblDeviceIp.TabIndex = 0;
+            this.lblDeviceIp.Text = "Device IP:";
             // 
             // btnTurnOffLight
             // 
+            this.btnTurnOffLight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.btnTurnOffLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTurnOffLight.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnTurnOffLight.Location = new System.Drawing.Point(543, 639);
             this.btnTurnOffLight.Name = "btnTurnOffLight";
             this.btnTurnOffLight.Size = new System.Drawing.Size(109, 28);
             this.btnTurnOffLight.TabIndex = 35;
             this.btnTurnOffLight.Text = "Turn Off";
-            this.btnTurnOffLight.UseVisualStyleBackColor = true;
+            this.btnTurnOffLight.UseVisualStyleBackColor = false;
             this.btnTurnOffLight.Click += new System.EventHandler(this.btnTurnOffLight_Click);
             // 
             // groupBox4
@@ -403,11 +428,49 @@ namespace SimpleSerial
             this.panelEffectsPanel.Size = new System.Drawing.Size(260, 309);
             this.panelEffectsPanel.TabIndex = 0;
             // 
+            // panelTopPanel
+            // 
+            this.panelTopPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(162)))), ((int)(((byte)(224)))));
+            this.panelTopPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelTopPanel.BackgroundImage")));
+            this.panelTopPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.panelTopPanel.Controls.Add(this.pictureBoxMinimizeButton);
+            this.panelTopPanel.Controls.Add(this.pictureBoxExitButton);
+            this.panelTopPanel.Location = new System.Drawing.Point(-2, -1);
+            this.panelTopPanel.Name = "panelTopPanel";
+            this.panelTopPanel.Size = new System.Drawing.Size(1089, 57);
+            this.panelTopPanel.TabIndex = 37;
+            this.panelTopPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelTopPanel_MouseDown);
+            // 
+            // pictureBoxMinimizeButton
+            // 
+            this.pictureBoxMinimizeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxMinimizeButton.BackgroundImage")));
+            this.pictureBoxMinimizeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxMinimizeButton.Location = new System.Drawing.Point(975, 7);
+            this.pictureBoxMinimizeButton.Name = "pictureBoxMinimizeButton";
+            this.pictureBoxMinimizeButton.Size = new System.Drawing.Size(45, 40);
+            this.pictureBoxMinimizeButton.TabIndex = 0;
+            this.pictureBoxMinimizeButton.TabStop = false;
+            this.pictureBoxMinimizeButton.Click += new System.EventHandler(this.pictureBoxMinimizeButton_Click);
+            // 
+            // pictureBoxExitButton
+            // 
+            this.pictureBoxExitButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxExitButton.BackgroundImage")));
+            this.pictureBoxExitButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxExitButton.Location = new System.Drawing.Point(1029, 8);
+            this.pictureBoxExitButton.Name = "pictureBoxExitButton";
+            this.pictureBoxExitButton.Size = new System.Drawing.Size(45, 40);
+            this.pictureBoxExitButton.TabIndex = 0;
+            this.pictureBoxExitButton.TabStop = false;
+            this.pictureBoxExitButton.Click += new System.EventHandler(this.pictureBoxExitButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1084, 680);
+            this.Controls.Add(this.panelTopPanel);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.btnTurnOffLight);
             this.Controls.Add(this.groupBox3);
@@ -418,6 +481,7 @@ namespace SimpleSerial
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.customColorBtn);
             this.Controls.Add(this.saveSetupBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Led Controller By MaorT";
@@ -432,6 +496,9 @@ namespace SimpleSerial
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.panelTopPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinimizeButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExitButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -472,6 +539,9 @@ namespace SimpleSerial
         private System.Windows.Forms.Button btnTurnOffLight;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Panel panelEffectsPanel;
+        private System.Windows.Forms.Panel panelTopPanel;
+        private System.Windows.Forms.PictureBox pictureBoxExitButton;
+        private System.Windows.Forms.PictureBox pictureBoxMinimizeButton;
     }
 }
 
